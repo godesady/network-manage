@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stylesheet.css')}}" type="text/css">
+    <script type="text/javascript">
+        function myrefresh() {
+            //获取iframe对象
+            var iframe = document.getElementById('frame1');
+            //取得iframe的scr 并添加一个随机函数，欺骗浏览器，每次请求都是以个新的地址，解决缓存
+            var scr = 'client.html?_d' + Math.random();
+            //重新设置iframe的scr
+            iframe.setAttribute('src', scr);
+        }
+        setInterval('myrefresh()', 1000);
+    </script>
+</head>
+<body>           
+    <div id='container'>
+        <div id='header'>
+        </div>
+        <div id='main'>
+            <div class="menu">
+                <ul>
+                    <li><a href="{{url_for('client_active')}}" target="iframe_a">客户端</a></li>
+                    <li><a href="{{url_for('deal_cmd')}}">传输命令</a></li>
+                    <li><a href="">结果</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <iframe src="{{url_for('client_active')}}" name="iframe_a" id='frame1' width="98%" height="110" style="margin: 0px auto;" frameborder="0"></iframe>
+                <table class='gridtable' >
+                    <caption>Result</caption>
+                    <tr>
+                        <th>客户端</th>
+                        <th>测试地址</th>
+                        <th>平均时延</th>
+                        <th>丢包率</th>
+                    </tr>
+                    {% for res in results %}
+                    <tr>
+                        <td>{{res[3]}}</td>
+                        <td>{{res[0]}}</td>
+                        <td>{{res[1]}}ms</td>
+                        <td>{{res[2]}}%</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div id='footer'>
+            <p>&copy;2018-2019  All Right Reserved.Godess版权所有</p>
+        </div>
+    </div>
+</body>
+</html>
